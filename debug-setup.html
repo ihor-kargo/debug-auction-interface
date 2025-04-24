@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Setup</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script>
+        // Function to capture the search time and show confirmation
+        function startDebugSession(event) {
+            event.preventDefault();  // Prevent form submission
+
+            const adSlotId = document.getElementById('adSlotId').value;
+            const bidHandler = document.getElementById('bidHandler').value;
+            const searchTime = new Date().toLocaleString();  // Capture current time
+
+            // Display confirmation dialog
+            const confirmationMessage = `You are about to search with the following parameters:\n\nAd Slot ID: ${adSlotId}\nBid Handler: ${bidHandler}\nTime: ${searchTime}\n\nDo you want to proceed?`;
+
+            if (confirm(confirmationMessage)) {
+                // Store the selected parameters and time in localStorage
+                localStorage.setItem('adSlotId', adSlotId);
+                localStorage.setItem('bidHandler', bidHandler);
+                localStorage.setItem('searchTime', searchTime);
+
+                // Redirect to debug logs page
+                window.location.href = "debug-logs.html";
+            } else {
+                alert("Search canceled.");
+            }
+        }
+
+        // Function to handle logout and clear user data from localStorage
+        function logout() {
+            localStorage.removeItem('userEmail');
+            window.location.href = "login.html";  // Redirect to login page
+        }
+
+        // Function to set username dynamically
+        function setUsername() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('username').innerText = `User: ${userEmail}`;
+            } else {
+                window.location.href = "login.html";  // If no user logged in, redirect to login
+            }
+        }
+
+        window.onload = setUsername;  // Call function to set the username on page load
+    </script>
+</head>
+<body>
+    <!-- User Menu at the top -->
+    <div class="container-fluid bg-light p-2">
+        <div class="d-flex justify-content-between">
+            <span id="username">User: Support</span>
+            <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow-lg" style="max-width: 500px;">
+            <h2 class="text-center mb-4">Target Bids for Debugging</h2>
+            <form id="debugForm" onsubmit="startDebugSession(event)">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="adSlotId" placeholder="Ad Slot ID" required />
+                </div>
+                <div class="mb-3">
+                    <label for="bidHandler" class="form-label">Select Bid Handler</label>
+                    <select id="bidHandler" class="form-select" required>
+                        <option value="AppNexus">AppNexus</option>
+                        <option value="OpenX">OpenX</option>
+                        <option value="PubMatic">PubMatic</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Start Debug</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
