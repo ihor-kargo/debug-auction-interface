@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Debug Auction Interface Tool is part of Kraken and helps support users debug bids. It allows users to specify bid parameters, view logs, and debug Kraken workflows through a simple, clean UI.
+The Debug Auction Interface is part of Kraken and helps support users debug bids. It allows users to specify bid parameters, view logs, and debug Kraken workflows through a simple, clean UI.
 
 ## Features
 
