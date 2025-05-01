@@ -11,15 +11,16 @@
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
 
-      if (email && password) {
-        localStorage.setItem('userEmail', email);
-        showToast("Login successful. Redirecting...");
-        setTimeout(() => {
-          window.location.href = "debug-setup.html";
-        }, 1000);
-      } else {
-        showToast("Invalid credentials. Try again.", true);
+      if (!email || !password) {
+        showToast("Please enter both email and password.", true);
+        return;
       }
+
+      localStorage.setItem('userEmail', email);
+      showToast("Login successful. Redirecting...");
+      setTimeout(() => {
+        window.location.href = "debug-setup.html";
+      }, 1000);
     }
 
     function showToast(message, isError = false) {
@@ -34,21 +35,21 @@
 </head>
 <body class="bg-light">
   <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-lg" style="max-width: 500px;">
+    <div class="card p-4 shadow-lg rounded-4" style="max-width: 500px; width: 100%;">
       <h2 class="text-center mb-4">Login</h2>
       <form onsubmit="login(event)" novalidate>
         <div class="mb-3">
-          <input type="email" class="form-control" id="email" placeholder="Email" required aria-label="Email" />
+          <input type="email" class="form-control rounded-3" id="email" placeholder="Email" required />
         </div>
         <div class="mb-3">
-          <input type="password" class="form-control" id="password" placeholder="Password" required aria-label="Password" />
+          <input type="password" class="form-control rounded-3" id="password" placeholder="Password" required />
         </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit" class="btn btn-primary w-100 rounded-3">Login</button>
       </form>
     </div>
   </div>
 
-  <!-- Toast for messages -->
+  <!-- Toast -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div id="liveToast" class="toast align-items-center text-white border-0" role="alert">
       <div class="d-flex">
