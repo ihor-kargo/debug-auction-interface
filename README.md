@@ -9,7 +9,7 @@ This is a prototype for Kraken's **Debug Auction Interface**. It allows support 
 - **Debug Logs**: View request/response payloads with mock data.
 
 ## Live Demo
-[View Demo](https://your-username.github.io/debug-interface-prototype/)
+[View Demo](https://ihor-kargo.github.io/debug-auction-interface/)
 
 ## Running Locally
 1. Clone or download the project.
