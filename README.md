@@ -1,13 +1,20 @@
-# Debug Auction Interface
+# Debug Auction Interface Prototype
 
 ## Overview
-
-The Debug Auction Interface is part of Kraken and helps support users debug bids. It allows users to specify bid parameters, view logs, and debug Kraken workflows through a simple, clean UI.
+This is a prototype for Kraken's **Debug Auction Interface**. It allows support users to debug auction workflows by selecting bid parameters and viewing request/response payloads.
 
 ## Features
+- **Login Screen** for authentication.
+- **Debug Setup**: Select **Ad Slot ID** and **Bid Handler**.
+- **Debug Logs**: View request/response payloads with mock data.
 
-- **Authentication Screen:** Secure login for support users.
-- **Targeting Parameters:** Select parameters like Ad Slot ID (for MVP).
-- **Bid Handlers Selection:** Dropdown to target specific bid handlers.
-- **Request Data Screen:** Display payloads to and from Scylla.
-- **Logs Screen:** View logs related to bid matching.
+## Live Demo
+[View Demo](https://your-username.github.io/debug-interface-prototype/)
+
+## Running Locally
+1. Clone or download the project.
+2. Open `index.html` (or `login.html`) in any modern browser.
+
+## Technologies
+- HTML, CSS (Bootstrap 5), JavaScript (for interactivity)
+- LocalStorage for storing user/session details
