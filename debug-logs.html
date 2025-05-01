@@ -10,6 +10,7 @@
         function loadDebugLogs() {
             // Retrieve test data from localStorage
             const adSlotId = localStorage.getItem('adSlotId');
+            const auctionType = localStorage.getItem('auctionType');
             const bidHandler = localStorage.getItem('bidHandler');
             const searchTime = localStorage.getItem('searchTime');
 
@@ -70,6 +71,7 @@
             document.getElementById('responsePayload').textContent = responsePayload;
             document.getElementById('searchDetails').innerHTML = `
                 <p><strong>Ad Slot ID:</strong> ${adSlotId}</p>
+                <p><strong>Auction Type:</strong> ${auctionType}</p>
                 <p><strong>Bid Handler:</strong> ${bidHandler}</p>
                 <p><strong>Search Time:</strong> ${searchTime}</p>
             `;

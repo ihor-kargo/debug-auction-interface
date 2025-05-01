@@ -80,6 +80,18 @@
         <input type="text" id="adSlotId" class="form-control" required placeholder="e.g. 1234"/>
       </div>
       <div class="mb-3">
+        <label for="auctionType" class="form-label">Select Auction Type</label>
+        <select id="auctionType" class="form-select" required>
+          <option value="">-- Choose --</option>
+          <option value="HeaderBidding">Header Bidding</option>
+          <option value="OpenRTB">OpenRTB</option>
+          <option value="PMP">Private Marketplace (PMP)</option>
+          <option value="PG">Programmatic Guaranteed (PG)</option>
+          <option value="DirectDeals">Direct Deals</option>
+          <option value="OpenExchange">OpenExchange</option>
+        </select>
+      </div>
+      <div class="mb-3">
         <label for="bidHandler" class="form-label">Select Bid Handler</label>
         <select id="bidHandler" class="form-select" required>
           <option value="">-- Choose --</option>
