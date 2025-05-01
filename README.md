@@ -13,7 +13,7 @@ This is a prototype for Kraken's **Debug Auction Interface**. It allows support 
 
 ## Running Locally
 1. Clone or download the project.
-2. Open `index.html` (or `login.html`) in any modern browser.
+2. Open `index.html` in any modern browser.
 
 ## Technologies
 - HTML, CSS (Bootstrap 5), JavaScript (for interactivity)
