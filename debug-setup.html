@@ -1,86 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debug Setup</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script>
-        // Function to capture the search time and show confirmation
-        function startDebugSession(event) {
-            event.preventDefault();  // Prevent form submission
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Debug Setup</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    .dropdown-toggle::after { display: none !important; }
+    .btn, .form-control, .form-select { border-radius: 0 !important; }
+  </style>
+  <script>
+    function startDebugSession(event) {
+      event.preventDefault();
+      const adSlotId = document.getElementById('adSlotId').value.trim();
+      const bidHandler = document.getElementById('bidHandler').value;
+      const searchTime = new Date().toLocaleString();
 
-            const adSlotId = document.getElementById('adSlotId').value;
-            const bidHandler = document.getElementById('bidHandler').value;
-            const searchTime = new Date().toLocaleString();  // Capture current time
+      if (!adSlotId || !bidHandler) return;
 
-            // Display confirmation dialog
-            const confirmationMessage = `You are about to search with the following parameters:\n\nAd Slot ID: ${adSlotId}\nBid Handler: ${bidHandler}\nTime: ${searchTime}\n\nDo you want to proceed?`;
+      showSpinner(true);
 
-            if (confirm(confirmationMessage)) {
-                // Store the selected parameters and time in localStorage
-                localStorage.setItem('adSlotId', adSlotId);
-                localStorage.setItem('bidHandler', bidHandler);
-                localStorage.setItem('searchTime', searchTime);
+      setTimeout(() => {
+        localStorage.setItem('adSlotId', adSlotId);
+        localStorage.setItem('bidHandler', bidHandler);
+        localStorage.setItem('searchTime', searchTime);
+        window.location.href = "debug-logs.html";
+      }, 1000);
+    }
 
-                // Redirect to debug logs page
-                window.location.href = "debug-logs.html";
-            } else {
-                alert("Search canceled.");
-            }
-        }
+    function logout() {
+      localStorage.removeItem('userEmail');
+      window.location.href = "login.html";
+    }
 
-        // Function to handle logout and clear user data from localStorage
-        function logout() {
-            localStorage.removeItem('userEmail');
-            window.location.href = "login.html";  // Redirect to login page
-        }
+    function setUsername() {
+      const userEmail = localStorage.getItem('userEmail');
+      if (userEmail) {
+        document.getElementById('username').textContent = `User: ${userEmail}`;
+      } else {
+        window.location.href = "login.html";
+      }
+    }
 
-        // Function to set username dynamically
-        function setUsername() {
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('username').innerText = `User: ${userEmail}`;
-            } else {
-                window.location.href = "login.html";  // If no user logged in, redirect to login
-            }
-        }
+    function showSpinner(show) {
+      const btn = document.getElementById('startBtn');
+      btn.innerHTML = show ? `<span class="spinner-border spinner-border-sm"></span> Starting...` : `Start Debug`;
+      btn.disabled = show;
+    }
 
-        window.onload = setUsername;  // Call function to set the username on page load
-    </script>
+    window.onload = setUsername;
+  </script>
 </head>
-<body>
-    <!-- User Menu at the top -->
-    <div class="container-fluid bg-light p-2">
-        <div class="d-flex justify-content-between">
-            <span id="username">User: Support</span>
-            <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+<body class="bg-light">
+  <!-- Header -->
+  <div class="container-fluid bg-white border-bottom py-2">
+    <div class="d-flex justify-content-between align-items-center">
+      <span id="username" class="ms-3">User: Support</span>
+      <div class="d-flex gap-2 me-3">
+        <a href="#" class="btn btn-outline-secondary">Marketplace</a>
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown">
+            <i class="bi bi-person"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><button class="dropdown-item" onclick="logout()">Logout</button></li>
+          </ul>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow-lg" style="max-width: 500px;">
-            <h2 class="text-center mb-4">Target Bids for Debugging</h2>
-            <form id="debugForm" onsubmit="startDebugSession(event)">
-                <div class="mb-3">
-                    <input type="text" class="form-control" id="adSlotId" placeholder="Ad Slot ID" required />
-                </div>
-                <div class="mb-3">
-                    <label for="bidHandler" class="form-label">Select Bid Handler</label>
-                    <select id="bidHandler" class="form-select" required>
-                        <option value="AppNexus">AppNexus</option>
-                        <option value="OpenX">OpenX</option>
-                        <option value="PubMatic">PubMatic</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Start Debug</button>
-            </form>
-        </div>
-    </div>
+  <!-- Form -->
+  <div class="container mt-5" style="max-width: 500px;">
+    <form onsubmit="startDebugSession(event)" novalidate>
+      <h2 class="mb-4">Start Debug Session</h2>
+      <div class="mb-3">
+        <label for="adSlotId" class="form-label">Ad Slot ID</label>
+        <input type="text" id="adSlotId" class="form-control" required placeholder="e.g. 1234"/>
+      </div>
+      <div class="mb-3">
+        <label for="bidHandler" class="form-label">Select Bid Handler</label>
+        <select id="bidHandler" class="form-select" required>
+          <option value="">-- Choose --</option>
+          <option value="AppNexus">AppNexus</option>
+          <option value="OpenX">OpenX</option>
+          <option value="PubMatic">PubMatic</option>
+        </select>
+      </div>
+      <button id="startBtn" type="submit" class="btn btn-primary w-100">Start Debug</button>
+    </form>
+  </div>
 
-    <!-- Bootstrap 5 JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
