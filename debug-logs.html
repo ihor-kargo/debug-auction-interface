@@ -68,21 +68,32 @@
 </head>
 <body class="bg-light">
   
- <!-- Header -->
- <div class="container-fluid text-white py-2" style="background: linear-gradient(to right, #00b5e2, #00c7b1);">
+<!-- Header -->
+<div class="container-fluid text-white py-2" style="background: linear-gradient(to right, #00b5e2, #00c7b1);">
     <div class="d-flex justify-content-between align-items-center">
-      <span id="username" class="ms-3 fw-semibold">User: Loading...</span>
-        <div class="dropdown">
-          <button class="btn btn-outline-light dropdown-toggle rounded-3" id="profileDropdown" data-bs-toggle="dropdown">
-            <i class="bi bi-person"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><button class="dropdown-item" onclick="logout()">Logout</button></li>
-          </ul>
-        </div>
+      <!-- Logo on the left -->
+      <img src="kargo-logo.png" alt="Kargo Logo" style="height: 40px;" class="ms-3"/>
+  
+      <!-- User dropdown on the right -->
+      <div class="dropdown me-3">
+        <button class="btn btn-outline-light dropdown-toggle rounded-3" id="profileDropdown" data-bs-toggle="dropdown">
+          <i class="bi bi-person"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <span id="username" class="dropdown-item-text fw-semibold">User: Loading...</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <button class="dropdown-item" onclick="logout()">Logout</button>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
+  
 
   <!-- Main Content -->
   <div class="container mt-5">
@@ -108,6 +119,9 @@
     }
   </style>
 
+<p class="fw-bold mb-3">Results 2 out of 2</p>
+
+<p class="fw-bold mb-2">Result 1</p>
       <!-- Accordion Logs -->
 <div class="accordion" id="logsAccordion">
     <div class="accordion-item">
@@ -157,12 +171,69 @@
       </h2>
       <div id="collapseFour" class="accordion-collapse collapse">
         <div class="accordion-body">
-          <pre id="responsePayload" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+          <pre id="responsePayload1" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
         </div>
       </div>
     </div>
   </div>
   
+  <hr class="my-4"/>
+
+  <p class="fw-bold mb-2">Result 2</p>
+      <!-- Accordion Logs -->
+<div class="accordion" id="logsAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFive">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+          Bid Request Received
+        </button>
+      </h2>
+      <div id="collapseFive" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <pre id="requestPayload4" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+        </div>
+      </div>
+    </div>
+  
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSix">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+          Payload to Scylla
+        </button>
+      </h2>
+      <div id="collapseSix" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <pre id="requestPayload5" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+        </div>
+      </div>
+    </div>
+  
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSeven">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
+          Response from Scylla
+        </button>
+      </h2>
+      <div id="collapseSeven" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <pre id="requestPayload6" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+        </div>
+      </div>
+    </div>
+  
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingEight">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight">
+          Response to Publisher
+        </button>
+      </h2>
+      <div id="collapseEight" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <pre id="responsePayload2" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
       <!-- Back Button -->
       <div class="mt-4 text-center">
