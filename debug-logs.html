@@ -35,13 +35,14 @@
         }]
       };
 
-      document.getElementById('searchDetails').innerHTML = `
-        <p><strong>Ad Slot ID:</strong> ${adSlotId}</p>
-        <p><strong>Auction Type:</strong> ${auctionType}</p>
-        <p><strong>Bid Handler:</strong> ${bidHandler}</p>
-        <p><strong>Search Time:</strong> ${searchTime}</p>
-      `;
-      document.getElementById('requestPayload').textContent = JSON.stringify(requestPayload, null, 2);
+      document.getElementById('sd-adSlotId').textContent = adSlotId;
+      document.getElementById('sd-auctionType').textContent = auctionType;
+      document.getElementById('sd-bidHandler').textContent = bidHandler;
+      document.getElementById('sd-searchTime').textContent = searchTime;
+
+      document.getElementById('requestPayload1').textContent = JSON.stringify(requestPayload, null, 2);
+      document.getElementById('requestPayload2').textContent = JSON.stringify(requestPayload, null, 2);
+      document.getElementById('requestPayload3').textContent = JSON.stringify(requestPayload, null, 2);
       document.getElementById('responsePayload').textContent = JSON.stringify(responsePayload, null, 2);
     }
 
@@ -50,21 +51,123 @@
       window.location.href = "index.html";
     }
 
-    window.onload = loadDebugLogs;
+    function setUsername() {
+      const userEmail = localStorage.getItem('userEmail');
+      if (userEmail) {
+        document.getElementById('username').textContent = `User: ${userEmail}`;
+      } else {
+        window.location.href = "index.html";
+      }
+    }
+
+    window.onload = function () {
+      setUsername();
+      loadDebugLogs();
+    };
   </script>
 </head>
 <body class="bg-light">
+  
+ <!-- Header -->
+ <div class="container-fluid text-white py-2" style="background: linear-gradient(to right, #00b5e2, #00c7b1);">
+    <div class="d-flex justify-content-between align-items-center">
+      <span id="username" class="ms-3 fw-semibold">User: Loading...</span>
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle rounded-3" id="profileDropdown" data-bs-toggle="dropdown">
+            <i class="bi bi-person"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><button class="dropdown-item" onclick="logout()">Logout</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <div class="container mt-5">
     <div class="card shadow rounded-4 p-4">
-      <h2 class="mb-4">Debug Logs</h2>
-      <div id="searchDetails" class="mb-4"></div>
-      <h4>Request Payload</h4>
-      <pre id="requestPayload" class="bg-dark text-white p-3 rounded-3 mb-4" style="white-space: pre-wrap;"></pre>
-      <h4>Response Payload</h4>
-      <pre id="responsePayload" class="bg-dark text-white p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+      
+      <!-- Aligned Search Details -->
+<div class="mb-4">
+    <div class="search-details">
+      <div><strong>Ad Slot ID:</strong></div><div id="sd-adSlotId"></div>
+      <div><strong>Auction Type:</strong></div><div id="sd-auctionType"></div>
+      <div><strong>Bid Handler:</strong></div><div id="sd-bidHandler"></div>
+      <div><strong>Search Time:</strong></div><div id="sd-searchTime"></div>
+    </div>
+  </div>
+  
+  <style>
+    .search-details {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      column-gap: 1rem;
+      row-gap: 0.5rem;
+      align-items: start;
+    }
+  </style>
+
+      <!-- Accordion Logs -->
+      <div class="accordion" id="logsAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+              Bid Request Received
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#logsAccordion">
+            <div class="accordion-body">
+              <pre id="requestPayload1" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+              Payload to Scylla
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#logsAccordion">
+            <div class="accordion-body">
+              <pre id="requestPayload2" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+              Response from Scylla
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#logsAccordion">
+            <div class="accordion-body">
+              <pre id="requestPayload3" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+              Response to Publisher
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#logsAccordion">
+            <div class="accordion-body">
+              <pre id="responsePayload" class="bg-light p-3 rounded-3" style="white-space: pre-wrap;"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back Button -->
       <div class="mt-4 text-center">
         <a href="debug-setup.html" class="btn btn-secondary rounded-3">Back</a>
       </div>
+
     </div>
   </div>
 
