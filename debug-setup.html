@@ -23,12 +23,22 @@
       startBtn.disabled = true;
 
       setTimeout(() => {
-        localStorage.setItem('adSlotId', adSlotId);
-        localStorage.setItem('bidHandler', bidHandler);
-        localStorage.setItem('auctionType', auctionType);
-        localStorage.setItem('searchTime', new Date().toLocaleString());
-        window.location.href = "debug-logs.html";
-      }, 1000);
+  localStorage.setItem('adSlotId', adSlotId);
+  localStorage.setItem('bidHandler', bidHandler);
+  localStorage.setItem('auctionType', auctionType);
+  const searchTime = new Date().toLocaleString();
+  localStorage.setItem('searchTime', searchTime);
+
+  const params = new URLSearchParams({
+    adSlotId,
+    bidHandler,
+    auctionType,
+    searchTime
+  });
+
+  window.location.href = `debug-logs.html?${params.toString()}`;
+}, 1000);
+
     }
 
     function logout() {

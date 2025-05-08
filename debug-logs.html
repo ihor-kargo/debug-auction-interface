@@ -19,11 +19,18 @@
 
   <script>
     function loadDebugLogs() {
-      const adSlotId = localStorage.getItem('adSlotId');
-      const auctionType = localStorage.getItem('auctionType');
-      const bidHandler = localStorage.getItem('bidHandler');
-      const searchTime = localStorage.getItem('searchTime');
-
+      const urlParams = new URLSearchParams(window.location.search);
+      const adSlotId = urlParams.get('adSlotId') || localStorage.getItem('adSlotId');
+      const auctionType = urlParams.get('auctionType') || localStorage.getItem('auctionType');
+      const bidHandler = urlParams.get('bidHandler') || localStorage.getItem('bidHandler');
+      const searchTime = urlParams.get('searchTime') || localStorage.getItem('searchTime');
+  
+      // Store in localStorage for continuity
+      if (adSlotId) localStorage.setItem('adSlotId', adSlotId);
+      if (auctionType) localStorage.setItem('auctionType', auctionType);
+      if (bidHandler) localStorage.setItem('bidHandler', bidHandler);
+      if (searchTime) localStorage.setItem('searchTime', searchTime);
+  
       const requestPayload = {
         id: "1234567890",
         imp: [{ id: "1", banner: { w: 300, h: 250, pos: 1 }, tagid: adSlotId }],
@@ -31,7 +38,7 @@
         device: { ip: "192.168.1.1", os: "Windows", ua: "Mozilla/5.0" },
         user: { id: "user123", geo: { lat: 37.77, lon: -122.41 } }
       };
-
+  
       const responsePayload = {
         id: "1234567890",
         seatbid: [{
@@ -45,31 +52,50 @@
           }]
         }]
       };
-
+  
       document.getElementById('sd-adSlotId').textContent = adSlotId;
       document.getElementById('sd-auctionType').textContent = auctionType;
       document.getElementById('sd-bidHandler').textContent = bidHandler;
       document.getElementById('sd-searchTime').textContent = searchTime;
-
+  
       const requestJson = JSON.stringify(requestPayload, null, 2);
       const responseJson = JSON.stringify(responsePayload, null, 2);
-
+  
       for (let i = 1; i <= 6; i++) {
         const el = document.getElementById(`requestPayload${i}`);
         if (el) el.textContent = requestJson;
       }
-
+  
       for (let i = 1; i <= 2; i++) {
         const el = document.getElementById(`responsePayload${i}`);
         if (el) el.textContent = responseJson;
       }
     }
-
+  
+    function generateShareableLink() {
+      const adSlotId = document.getElementById('sd-adSlotId').textContent;
+      const auctionType = document.getElementById('sd-auctionType').textContent;
+      const bidHandler = document.getElementById('sd-bidHandler').textContent;
+      const searchTime = document.getElementById('sd-searchTime').textContent;
+  
+      const params = new URLSearchParams({
+        adSlotId,
+        auctionType,
+        bidHandler,
+        searchTime
+      });
+  
+      const shareUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert("Link copied to clipboard!");
+      });
+    }
+  
     function logout() {
       localStorage.removeItem('userEmail');
       window.location.href = "index.html";
     }
-
+  
     function setUsername() {
       const userEmail = localStorage.getItem('userEmail');
       if (userEmail) {
@@ -78,12 +104,12 @@
         window.location.href = "index.html";
       }
     }
-
+  
     window.onload = function () {
       setUsername();
       loadDebugLogs();
     };
-  </script>
+  </script>  
 </head>
 
 <body class="bg-light">
@@ -234,6 +260,9 @@
       <div class="mt-4 text-center">
         <a href="debug-setup.html" class="btn btn-primary w-25 rounded-3">Back</a>
       </div>
+      <div class="mt-2 text-center">
+        <button class="btn btn-outline-secondary w-25 rounded-3" onclick="generateShareableLink()">Copy Shareable Link</button>
+      </div>      
     </div>
   </div>
 
